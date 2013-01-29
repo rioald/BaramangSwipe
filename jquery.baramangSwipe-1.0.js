@@ -217,7 +217,7 @@ BaramangSwipe.model = function(obj, elements, options) {
 	/**
 	 * element들을 모두 재배치한다
 	 */
-	this.reload = function() {
+	this.reload = function(callback) {
 		if(isLoop) {
 			// 현재 페이지의 배열부터 원본 배열크기까지 남겨두고 모두 제거 
 			self.elements.not(self.elements.slice(self.elementCountPerGroup, self.elementCountPerGroup + self.elementCount)).remove();
@@ -247,6 +247,10 @@ BaramangSwipe.model = function(obj, elements, options) {
 					self.currentPageNo = 0;
 				} else {
 					self.scrollElements(self.containerX = parseInt(self.elements.eq(self.elementCountPerGroup).css("left")), 0);
+				}
+				
+				if(callback && callback instanceof Function) {
+					callback(self);
 				}				
 			}, 0);
 		}
@@ -278,6 +282,10 @@ BaramangSwipe.model = function(obj, elements, options) {
 				} else {
 					self.scrollElements(self.containerX = parseInt(self.elements.eq(self.elementCountPerGroup).css("left")), 0);
 				}
+				
+				if(callback && callback instanceof Function) {
+					callback(self);
+				}				
 			}, 0);
 		}
 	};
@@ -660,9 +668,9 @@ BaramangSwipe.model = function(obj, elements, options) {
 	
 	// bind window.onresize
 	if(navigator.userAgent.search("iPhone|iPod|iPad") > -1) {
-		$(window).bind("orientationchange", self.onresize);	
+		$(window).bind("orientationchange", function() { self.onresize(); });	
 	} else {
-		$(window).bind("resize", self.onresize);	
+		$(window).bind("resize", function() { self.onresize(); });	
 	}
 	
 	/**
