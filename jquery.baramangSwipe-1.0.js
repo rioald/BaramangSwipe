@@ -67,11 +67,7 @@ BaramangSwipe.model = function(obj, elements, options) {
 			var a = $(v).parents("a");
 			
 			if(a.length > 0) {
-				var isDefaultAnchor = a.get(0).onclick ? a.get(0).onclick() : true;
-				
-				if(isDefaultAnchor) {
-					window.location.href = a.eq(0).attr("href");
-				}
+				a.eq(0).trigger('click');
 			}
 		}
 	}, options.swipeOptions);
